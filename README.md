@@ -104,28 +104,45 @@ claude
 
 When launched in the repository or any linked worktree, Claude Code automatically triggers the `SessionStart` hook, displays the active workspace report banner, and injects all layer instructions and skills into context before the first prompt.
 
-# Options & Flags
+# Configuration
 
-### Global Options
+### Git Configuration Keys
 
-| Flag        | Short | Default | Description               |
-| :---------- | :---- | :------ | :------------------------ |
-| `--version` | `-V`  | `false` | Output the version number |
-| `--help`    | `-h`  | `false` | Display help for command  |
+Configure workspaces inside any repository checkout (or worktree):
 
-### `claude-workspace hook session-start`
+| Key                       | Scope          | Description                                                                                               |
+| :------------------------ | :------------- | :-------------------------------------------------------------------------------------------------------- |
+| `claude-workspace.config` | local / global | Path to a `workspace.json` configuration file. Automatically inherited by Git worktrees.                  |
+| `claude-workspace.load`   | local / global | Out-of-tree workspace layer directory path (or multiple paths). Automatically inherited by Git worktrees. |
 
-| Flag           | Short | Default         | Description              |
-| :------------- | :---- | :-------------- | :----------------------- |
-| `--cwd <path>` | `-c`  | `process.cwd()` | Target working directory |
+_(For cross-tool compatibility, `workspace.config` / `workspace.load` and `pi-workspace.config` / `pi-workspace.load` are also supported as automatic fallbacks)._
 
-### `claude-workspace workspace inspect [path]`
+### `workspace.json` Syntax
 
-Inspects resolved workspace layers for the specified path (or current directory if omitted).
+A `workspace.json` file maps directory patterns to ordered lists of workspace layers:
 
-### `claude-workspace workspace list [path]`
+```json
+{
+  "configs": [
+    {
+      "when": "~/development/my-org/*",
+      "load": ["~/.ai/my-org/_common", "~/.ai/my-org/[project]"]
+    }
+  ]
+}
+```
 
-Lists configured workspace rules and Git configuration values for the specified path.
+- **`when`**: Glob pattern matched against the active repository path. Supports `*` and `**`.
+- **`load`**: A single directory path or an array of paths loaded in order.
+- **Placeholders**: `[project]`, `:project`, and `[name]` are dynamically replaced with the matched repository directory name. Numeric captures (`:1`, `$1`) are also supported.
+- **Graceful Loading**: Missing layer directories are skipped cleanly without errors.
+
+### Workspace Layer Contents
+
+Each resolved workspace folder can contain:
+
+- **System Instructions**: `APPEND_SYSTEM.md`, `SYSTEM.md`, `AGENTS.md`, or `CLAUDE.md`.
+- **Skills**: `skills/<skill-name>/SKILL.md` (indexed and registered into Claude's context).
 
 # Local Testing
 
