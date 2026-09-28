@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "alexgorbatchev",
+  "description": "Claude Code plugins by Alex Gorbatchev",
+  "owner": {
+    "name": "Alex Gorbatchev"
+  },
+  "plugins": [
+    {
+      "name": "claude-workspace",
+      "version": "1.0.0",
+      "description": "Hierarchical out-of-tree workspaces for Claude Code (Git-native autodiscovery, worktree inheritance, and clean working trees)",
+      "source": "./"
+    }
+  ]
+}

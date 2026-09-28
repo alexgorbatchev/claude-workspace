@@ -1,0 +1,8 @@
+{
+  "name": "claude-workspace",
+  "version": "1.0.0",
+  "description": "Hierarchical out-of-tree workspaces for Claude Code (Git-native autodiscovery, worktree inheritance, and clean working trees)",
+  "author": {
+    "name": "Alex Gorbatchev"
+  }
+}

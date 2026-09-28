@@ -1,0 +1,45 @@
+{
+  "name": "@alexgorbatchev/claude-workspace",
+  "version": "0.0.1",
+  "description": "Claude Code plugin and CLI for hierarchical out-of-tree workspaces (Git-native autodiscovery, worktree inheritance, and clean working trees)",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src",
+    "hooks",
+    ".claude-plugin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "bun build src/main.ts --outfile dist/index.js --target node --banner '#!/usr/bin/env node'",
+    "check": "bun --bun oxfmt --check . && bun --bun oxlint . && tsc --noEmit",
+    "fix": "bun --bun oxfmt --write .",
+    "test": "bun test",
+    "test:local": "bun run scripts/test-local.ts",
+    "test:worktree": "bun run scripts/test-worktree.ts"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
+  },
+  "devDependencies": {
+    "@alexgorbatchev/typescript-ai-policy": "^13.0.0",
+    "@types/bun": "^1.4.2",
+    "@types/node": "^22.20.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
+    "typescript": "^6.0.2"
+  },
+  "author": "Alex Gorbatchev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexgorbatchev/claude-workspace.git"
+  },
+  "homepage": "https://github.com/alexgorbatchev/claude-workspace#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
